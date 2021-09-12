@@ -1,0 +1,28 @@
+.card {
+  width: 24rem;
+  height: 24rem;
+  font-size: 1.2rem;
+
+  background-color: #eee;
+
+  box-shadow: 0 1px 1.8rem rgba(0, 0, 0, 0.2);
+  position: relative;
+
+  padding: 2.4rem 1.2rem;
+}
+/* 
+.card-body{
+
+} */
+
+.btn-new {
+  font-weight: 600;
+
+  position: absolute;
+  bottom: 0;
+  right: 50%;
+
+  transform: translate(50%, 50%);
+
+  transition: all 0.2s;
+}

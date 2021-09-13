@@ -1,8 +1,9 @@
 import React from 'react';
-import { IItem, Item } from './components/Item';
+import { Item } from './components/Item';
 import { ItemList } from './components/ItemList';
 
 import './App.css';
+import { IItem } from './types/IItem';
 
 
 const defaultValue: IItem[] = [
@@ -16,6 +17,7 @@ const defaultValue: IItem[] = [
 ]
 
 function App() {
+  console.log('reload <App>')
   return (
     <div className='container'>
       <ItemList items={defaultValue} />

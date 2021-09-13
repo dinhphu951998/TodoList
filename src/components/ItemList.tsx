@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { IItem, Item } from "./Item";
+import { IItem } from "../types/IItem";
+import { Item } from "./Item";
 import './ItemList.css'
 
 interface IList<T> {
@@ -8,24 +9,30 @@ interface IList<T> {
 
 export const ItemList = function ({ items, ...props }: IList<IItem>) {
     const [itemList, setItems] = useState<IItem[]>(items)
-
+    console.log('reload <ItemList>')
+    console.log(itemList)
 
     const addItem = () => {
-        setItems((previousState) => [...previousState, { name: '', editable: true }])
+        setItems((previousState) => {
+            const newItem: IItem = {
+                name: '',
+                editable: true
+            }
+            return [...previousState, newItem];
+        })
     }
 
-    const updateItem = (index: number, newItem: IItem) => {
+
+    const removeItem = (index: number) => {
         if (index >= 0 && index < itemList.length) {
-            itemList[index] = newItem
+            itemList.splice(index, 1)
+            setItems([...itemList])
         }
-        setItems([...itemList])
     }
 
-    const deleteItem = (index: number) => {
-        if (index >= 0 && index < itemList.length) {
-            const newList = itemList.splice(index, 1)
-            setItems([...newList])
-        }
+    const removeItemByName = (name: string) => {
+        const newList = itemList.filter(i => i.name !== name)
+        setItems([...newList])
     }
 
     return (
@@ -33,7 +40,7 @@ export const ItemList = function ({ items, ...props }: IList<IItem>) {
             <div className="card-body">
                 {
                     itemList && itemList.length > 0 ?
-                        itemList.map((item, i) => <Item name={item.name} completed={item.completed} editable={item.editable} key={i} />) :
+                        itemList.map((item, i) => (<Item removeItemByName={removeItemByName} removeItem={removeItem} index={i} key={item.name} name={item.name} completed={item.completed} editable={item.editable} />)) :
                         (<p className='not-found'>Not found</p>)
                 }
             </div>

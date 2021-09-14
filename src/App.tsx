@@ -1,27 +1,17 @@
 import React from 'react';
-import { Item } from './components/Item';
 import { ItemList } from './components/ItemList';
 
 import './App.css';
-import { IItem } from './types/IItem';
+import { ItemListProvider } from './context/TodoListContext'
 
-
-const defaultValue: IItem[] = [
-  {
-    name: 'Complete website',
-    completed: true
-  }, {
-    name: 'Go to sleep',
-
-  }
-]
 
 function App() {
-  console.log('reload <App>')
   return (
-    <div className='container'>
-      <ItemList items={defaultValue} />
-    </div>
+    <ItemListProvider>
+      <div className='container'>
+        <ItemList />
+      </div>
+    </ItemListProvider>
   );
 }
 

@@ -1,5 +1,4 @@
-import React, { useContext, useEffect, useMemo, useState } from 'react';
-import { ItemListContext } from '../context/TodoListContext';
+import { useState } from 'react';
 import { IItemService } from '../service/IItemService';
 import { IItem } from '../types/IItem';
 import './Item.css'

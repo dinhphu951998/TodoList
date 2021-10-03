@@ -1,27 +1,30 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useMemo, useState } from 'react';
 import { ItemListContext } from '../context/TodoListContext';
+import { IItemService } from '../service/IItemService';
 import { IItem } from '../types/IItem';
 import './Item.css'
 
 export interface IItemProps {
     taskItem: IItem,
+    itemService: IItemService;
     updateItem: (item: IItem) => void
     removeItem: (index: number) => void,
 }
 
-export const Item = ({ taskItem, updateItem, removeItem }: IItemProps) => {
+export const Item = ({ taskItem, updateItem, removeItem, itemService }: IItemProps) => {
     const [editable, setEditable] = useState<boolean>(taskItem.editable ?? false);
-    const [completed, setCompleted] = useState<boolean>(!!taskItem.completed)
+    const [completed, setCompleted] = useState<boolean>(!!taskItem.completed);
 
     const updateEditable = () => {
         setEditable(true);
     }
 
     const finishEdit = (e: any) => {
+        e.preventDefault();
         const value = e.target.value
         if (value) {
             setEditable(false)
-            updateItem({ ...taskItem, name: value })
+            updateItem({ ...taskItem, name: value, editable: false })
         }
     }
 
@@ -32,6 +35,7 @@ export const Item = ({ taskItem, updateItem, removeItem }: IItemProps) => {
     const markComplete = (e: any) => {
         const complete = e.currentTarget.checked
         setCompleted(complete);
+        itemService.updateItem({ ...taskItem, completed: complete })
     }
 
     return (

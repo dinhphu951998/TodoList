@@ -46,20 +46,29 @@ export const ItemListProvider = (props: PropsWithChildren<{}>) => {
         total: 0
     })
 
+    const addNewItem = () => {
+        const items = globalData.data;
+        if(items[items.length - 1]?.name){
+            
+        }
+    }
+
     const saveItem = (item: IItem) => {
         const found = globalData.data.filter(d => d.id === item.id)
+        let newData: IItem[] = []
         if (!found) {
             item.id = globalData.total ? globalData.total + 1 : 1
             globalData.data.push(item)
         } else {
-            globalData.data = globalData.data.map(d => {
+            newData = globalData.data.map(d => {
                 if (d.id === item.id) {
                     return item
                 }
                 return d
             })
         }
-        setGlobalData({ ...globalData })
+        //    ...global, data: [...data, item]
+        setGlobalData({ ...globalData, data: [...newData] })
     }
 
     const removeItem = (item: IItem) => {

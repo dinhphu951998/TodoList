@@ -9,31 +9,48 @@ interface IList<T> {
 }
 
 export const ItemList = () => {
-    const itemListContext = useContext(ItemListContext)
-    const itemList = itemListContext.data
+    const [items, setItems] = useState([] as IItem[]);
 
-    const addItem = () => {
 
+    const addNewItem = () => {
+        if (!items[items.length - 1]?.init) {
+            const newItem: IItem = {
+                id: items.length + 1,
+                name: "",
+                editable: true
+            }
+            setItems([...items, newItem]);
+        }
     }
 
-    const removeItem = (index: number) => {
+    const updateItem = (newItem: IItem) => {
+        const foundIdx = items.findIndex(i => i.id == newItem.id)
+        if (foundIdx >= 0) {
+            const foundItem = items[foundIdx];
+            newItem = {
+                ...foundItem,
+                name: newItem.name
+            }
+            items[foundIdx] = newItem;
+            setItems([...items]);
+        }
+    }
 
+    const removeItem = (id: number) => {
+        const newItems = items.filter(i => i.id != id)
+        setItems(newItems)
     }
 
     return (
         <div className="card">
             <div className="card-body">
-                <ItemListContext.Consumer>
-                    {
-                        value => (
-                            value.data && value.data.length > 0 ?
-                                value.data.map((item, i) => (<Item id={item.id} key={item.id} name={item.name} completed={item.completed} editable={item.editable} />)) :
-                                (<p className='not-found'>Not found</p>)
-                        )
-                    }
-                </ItemListContext.Consumer>
+                {
+                    items && items.length > 0 ?
+                        items.map((item, i) => (<Item key={item.id} taskItem={item} updateItem={updateItem} removeItem={removeItem} />)) :
+                        (<p className='not-found'>Not found</p>)
+                }
             </div>
-            <button className="btn btn-new" onClick={addItem}>+ New task</button>
+            <button className="btn btn-new" onClick={addNewItem}>+ New task</button>
         </div>
     );
 }

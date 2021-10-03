@@ -7,11 +7,9 @@ import { ItemListProvider } from './context/TodoListContext'
 
 function App() {
   return (
-    <ItemListProvider>
-      <div className='container'>
-        <ItemList />
-      </div>
-    </ItemListProvider>
+    <div className='container'>
+      <ItemList />
+    </div>
   );
 }
 

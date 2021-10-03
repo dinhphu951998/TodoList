@@ -5,9 +5,6 @@ import { IItem } from "../types/IItem";
 import { Item } from "./Item";
 import './ItemList.css'
 
-interface IList<T> {
-    // data: T[]
-}
 
 export const ItemList = () => {
     const [items, setItems] = useState([] as IItem[]);
@@ -16,6 +13,7 @@ export const ItemList = () => {
     useEffect(() => {
         const data = itemService.getItemFromStorage();
         setItems(data)
+        // eslint-disable-next-line
     }, [])
 
     const addNewItem = () => {
@@ -30,7 +28,7 @@ export const ItemList = () => {
     }
 
     const updateItem = (newItem: IItem) => {
-        const foundIdx = items.findIndex(i => i.id == newItem.id)
+        const foundIdx = items.findIndex(i => i.id === newItem.id)
         if (foundIdx >= 0) {
             const foundItem = items[foundIdx];
             newItem = {
@@ -44,7 +42,7 @@ export const ItemList = () => {
     }
 
     const removeItem = (id: number) => {
-        const newItems = items.filter(i => i.id != id);
+        const newItems = items.filter(i => i.id !== id);
         itemService.removeItem({ id: id } as IItem);
         setItems(newItems);
     }
